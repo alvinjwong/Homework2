@@ -28,6 +28,16 @@ class Workshop : public Event {
     Workshop(std::string name, std::string date, std::string location, int duration, std::string instructor) :
     Event(name, date, location), duration(duration), instructor(instructor) {}
     void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Duration: " << duration << " Instructor: " << instructor << std::endl;}
+    bool isUpcoming() {return true;}
+};
 
+class Concert : public Event {
+    private:
+    std::string bandName;
+    std::string genre;
+    public:
+    Concert(std::string name, std::string date, std::string location, std::string bandName, std::string genre) :
+    Event(name, date, location), bandName(bandName), genre(genre) {}
+    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Band Name: " << bandName << " Genre: " << genre << std::endl;}
 
 };
