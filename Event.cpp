@@ -27,7 +27,7 @@ class Workshop : public Event {
     public:
     Workshop(std::string name, std::string date, std::string location, int duration, std::string instructor) :
     Event(name, date, location), duration(duration), instructor(instructor) {}
-    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << std::endl;}
+    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Duration: " << duration << " Instructor: " << instructor << std::endl;}
 
 
 };
