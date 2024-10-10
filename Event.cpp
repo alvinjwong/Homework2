@@ -1,8 +1,5 @@
 #include <iostream>
 #include <string>
-#include <ctime>
-
-//https://www.w3schools.com/cpp/cpp_date.asp#:~:text=The%20difftime()%20function%20measures,measuring%20time%20differences%20between%20dates.
 
 
 
