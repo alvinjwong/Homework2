@@ -6,9 +6,9 @@
 
 class Event {
     private:
-    string eventName;
-    string eventDate;
-    string location;
+    std::string eventName;
+    std::string eventDate;
+    std::string location;
     public:
     
 
