@@ -7,7 +7,7 @@
 
 
 class Event {
-    private:
+    protected:
     std::string eventName;
     std::string eventDate;
     std::string location;
@@ -15,6 +15,9 @@ class Event {
     Event(std::string name, std::string date, std::string location) : eventName(name), eventDate(date), location(location) {}
     void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << std::endl;}
     bool isUpcoming() {return true;}
+    std::string getName() {return eventName;}
+    std::string getDate() {return eventDate;}
+    std::string getLocation() {return location;}
 };
 
 class Workshop : public Event {
@@ -24,6 +27,7 @@ class Workshop : public Event {
     public:
     Workshop(std::string name, std::string date, std::string location, int duration, std::string instructor) :
     Event(name, date, location), duration(duration), instructor(instructor) {}
+    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << std::endl;}
 
-    
+
 };
