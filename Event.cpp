@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
 
-
+//https://www.geeksforgeeks.org/factory-method-pattern-c-design-patterns/
+//https://www.geeksforgeeks.org/smart-pointers-cpp/
 
 class Event {
     protected:
@@ -10,6 +13,7 @@ class Event {
     std::string location;
     public:
     Event(std::string name, std::string date, std::string location) : eventName(name), eventDate(date), location(location) {}
+    virtual ~Event();
     void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << std::endl;}
     bool isUpcoming() {return true;}
     std::string getName() {return eventName;}
@@ -37,4 +41,31 @@ class Concert : public Event {
     Event(name, date, location), bandName(bandName), genre(genre) {}
     void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Band Name: " << bandName << " Genre: " << genre << std::endl;}
 
+};
+
+class EventFactory {
+public:
+    std::shared_ptr<Event> createEvent();
+    virtual ~EventFactory();
+    
+};
+
+class WorkshopFactory : public EventFactory {
+public:
+    std::shared_ptr<Event> createEvent() {
+        std::string name, date, location, instructor;
+        int duration;
+        std::cout << "Enter Workshop Name: ";
+        std::getline(std::cin, name);
+        std::cout << "Enter Date (YYYY-MM-DD): ";
+        std::getline(std::cin, date);
+        std::cout << "Enter Location: ";
+        std::getline(std::cin, location);
+        std::cout << "Enter Duration (in hours): ";
+        std::cin >> duration;
+        std::cin.ignore();
+        std::cout << "Enter Instructor Name: ";
+        std::getline(std::cin, instructor);
+        return std::make_shared<Workshop>(name, date, location, duration, instructor);
+    }
 };
