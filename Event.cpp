@@ -95,4 +95,24 @@ class ConcertFactory : public EventFactory {
     }
 };
 
+class SearchSPattern {
+    public:
+    virtual ~SearchSPattern();
+    virtual void search(std::vector<std::unique_ptr<Event>>& events);
+};
+
+class DateSearch : public SearchSPattern {
+    private:
+    std::string date;
+    public:
+    DateSearch(std::string date) : date(date) {}
+    void search(std::vector<std::unique_ptr<Event>>& events) {
+        for (auto &event : events) {
+            if (event->getDate() == date) {
+                event->getDetails();
+            }
+        }
+    }
+
+}
 
