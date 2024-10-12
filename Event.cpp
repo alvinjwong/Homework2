@@ -53,19 +53,46 @@ public:
 class WorkshopFactory : public EventFactory {
 public:
     std::shared_ptr<Event> createEvent() {
-        std::string name, date, location, instructor;
+        std::string name;
+        std::string date;
+        std::string location;
         int duration;
-        std::cout << "Enter Workshop Name: ";
+        std::string instructor;
+        std::cout << "Enter Workshop Name: " << std::endl;
         std::getline(std::cin, name);
-        std::cout << "Enter Date (YYYY-MM-DD): ";
+        std::cout << "Enter Workshop Date: " << std::endl;
         std::getline(std::cin, date);
-        std::cout << "Enter Location: ";
+        std::cout << "Enter Workshop Location: " << std::endl;
         std::getline(std::cin, location);
-        std::cout << "Enter Duration (in hours): ";
+        std::cout << "Enter Workshop Duration: " << std::endl;
         std::cin >> duration;
         std::cin.ignore();
-        std::cout << "Enter Instructor Name: ";
+        std::cout << "Enter Workshop Instructor Name: " << std::endl;
         std::getline(std::cin, instructor);
         return std::make_shared<Workshop>(name, date, location, duration, instructor);
     }
 };
+
+class ConcertFactory : public EventFactory {
+    public:
+    std::shared_ptr<Event> createEvent() {
+        std::string name;
+        std::string date;
+        std::string location;
+        std::string bandName;
+        std::string genre;
+        std::cout << "Enter Concert Name: " << std::endl;
+        std::getline(std::cin, name);
+        std::cout << "Enter Concert Date: " << std::endl;
+        std::getline(std::cin, date);
+        std::cout << "Enter Concert Location: " << std::endl;
+        std::getline(std::cin, location);
+        std::cout << "Enter Concert Band: " << std::endl;
+        std::getline(std::cin, bandName);
+        std::cout << "Enter Genre of Concert: " << std::endl;
+        std::getline(std::cin, genre);
+        return std::make_shared<Concert>(name, date, location, bandName, genre);
+    }
+};
+
+
