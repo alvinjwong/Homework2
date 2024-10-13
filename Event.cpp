@@ -130,3 +130,11 @@ class LocationSearch : public SearchSPattern {
     }
 };
 
+int main() {
+    bool isActive = true;
+    std::vector<std::unique_ptr<Event>> events;
+    while (isActive) {
+        std::cout << "This is the "
+    }
+}
+
