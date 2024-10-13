@@ -134,7 +134,23 @@ int main() {
     bool isActive = true;
     std::vector<std::unique_ptr<Event>> events;
     while (isActive) {
-        std::cout << "This is the "
+        std::cout << "This is the Event Management System:" << std::endl;
+        std::cout << "Enter a number for the option you would like" << std::endl;
+        std::cout << "1. Create a new event" << std::endl;
+        std::cout << "2. Search for an event" << std::endl;
+        std::cout << "3. Display details of event" << std::endl;
+        std::cout << "4. List upcoming events" << std::endl;
+        std::cout << "5. Exit Program" << std::endl;
+
+        int choice;
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
+                
+            }
+        }
     }
 }
 
