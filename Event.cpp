@@ -114,5 +114,19 @@ class DateSearch : public SearchSPattern {
         }
     }
 
-}
+};
+
+class LocationSearch : public SearchSPattern {
+    private:
+    std::string location;
+    public:
+    LocationSearch(std::string location) : location(location) {}
+    void search (std::vector<std::unique_ptr<Event>>& events) {
+        for (auto &event : events) {
+            if (event->getLocation() == location) {
+                event->getDetails();
+            }
+        }
+    }
+};
 
