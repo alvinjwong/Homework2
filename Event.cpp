@@ -145,9 +145,23 @@ int main() {
         int choice;
         std::cin >> choice;
 
+//https://www.geeksforgeeks.org/unique_ptr-in-cpp/
         switch (choice) {
             case 1: {
                 std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
+                std::string type;
+                std::cin >> type;
+                auto event = EventFactory::createEvent(type);
+                if (event) {
+                    events.push_back(std::move(event));
+                } else {
+                    std::cout << "That event type was not supported" << std::endl;
+                }
+                break;
+            }
+            case 2: {
+                std::cout << "How would you like to search for the event" << std::endl;
+                std::cout << "Type 1 for Date, Type 2 for Location" << std::endl;
                 
             }
         }
