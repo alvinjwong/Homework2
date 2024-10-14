@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <algoritm>
+#include <algorithm>
 
 //https://www.geeksforgeeks.org/factory-method-pattern-c-design-patterns/
 //https://www.geeksforgeeks.org/smart-pointers-cpp/
@@ -99,7 +99,7 @@ class ConcertFactory : public EventFactory {
 class SearchSPattern {
     public:
     virtual ~SearchSPattern();
-    virtual void search(std::vector<std::unique_ptr<Event>>& events);
+    virtual void search(std::vector<std::shared_ptr<Event>>& events);
 };
 
 class DateSearch : public SearchSPattern {
@@ -107,7 +107,7 @@ class DateSearch : public SearchSPattern {
     std::string date;
     public:
     DateSearch(std::string date) : date(date) {}
-    void search(std::vector<std::unique_ptr<Event>>& events) {
+    void search(std::vector<std::shared_ptr<Event>>& events) {
         for (auto &event : events) {
             if (event->getDate() == date) {
                 event->getDetails();
@@ -122,7 +122,7 @@ class LocationSearch : public SearchSPattern {
     std::string location;
     public:
     LocationSearch(std::string location) : location(location) {}
-    void search (std::vector<std::unique_ptr<Event>>& events) {
+    void search (std::vector<std::shared_ptr<Event>>& events) {
         for (auto &event : events) {
             if (event->getLocation() == location) {
                 event->getDetails();
@@ -133,7 +133,7 @@ class LocationSearch : public SearchSPattern {
 
 int main() {
     bool isActive = true;
-    std::vector<std::unique_ptr<Event>> events;
+    std::vector<std::shared_ptr<Event>> events;
     while (isActive) {
         std::cout << "This is the Event Management System:" << std::endl;
         std::cout << "Enter a number for the option you would like" << std::endl;
