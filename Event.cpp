@@ -171,17 +171,18 @@ int main() {
                 std::cout << "Type 1 for Date, Type 2 for Location" << std::endl;
                 int eventChoice;
                 std::cin >> eventChoice;
+                std::cin.ignore();
                 std::shared_ptr<SearchSPattern> searchP = nullptr;
                 if (eventChoice == 1) {
                     std::string date;
                     std::cout << "What is the date of the event you need?" << std::endl;
                     std::cin >> date;
-                    searchP = std::shared_ptr<DateSearch>(date);
+                    searchP = std::make_shared<DateSearch>(date);
                 } else if (eventChoice == 2) {
                     std::string location;
                     std::cout << "What is the location of the event you need?" << std::endl;
                     std::getline(std::cin, location);
-                    searchP = std::shared_ptr<LocationSearch>(location);
+                    searchP = std::make_shared<LocationSearch>(location);
                 } else {
                     std::cout << "That was not a valid option" << std::endl;
                     break;
