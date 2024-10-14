@@ -152,17 +152,17 @@ int main() {
                 std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
                 std::string type;
                 std::cin >> type;
-                std::shared_ptr<Event> event = nullptr;
+                std::shared_ptr<EventFactory> eventF = nullptr;
                 if (type == "Workshop" || type == "workshop") {
-                    event = WorkshopFactory::createEvent();
+                    eventF = std::make_shared<WorkshopFactory>();
                 } else if (type == "Concert" || type == "concert") {
-                    event = ConcertFactory::createEvent();
+                    eventF = std::make_shared<ConcertFactory>();
                 } else {
                     std::cout << "That event type was not supported" << std::endl;
                     break;
                 }
-                if (event) {
-                    events.push_back(event);
+                if (eventF) {
+                    events.push_back(eventF->createEvent());
                 }
                 break;
             }
