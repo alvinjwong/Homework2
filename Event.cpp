@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algoritm>
 
 //https://www.geeksforgeeks.org/factory-method-pattern-c-design-patterns/
 //https://www.geeksforgeeks.org/smart-pointers-cpp/
@@ -151,20 +152,80 @@ int main() {
                 std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
                 std::string type;
                 std::cin >> type;
-                auto event = EventFactory::createEvent(type);
-                if (event) {
-                    events.push_back(std::move(event));
+                std::shared_ptr<Event> event = nullptr;
+                if (type == "Workshop" || type == "workshop") {
+                    event = WorkshopFactory::createEvent();
+                } else if (type == "Concert" || type == "concert") {
+                    event = ConcertFactory::createEvent();
                 } else {
                     std::cout << "That event type was not supported" << std::endl;
+                    break;
+                }
+                if (event) {
+                    events.push_back(event);
                 }
                 break;
             }
             case 2: {
                 std::cout << "How would you like to search for the event" << std::endl;
                 std::cout << "Type 1 for Date, Type 2 for Location" << std::endl;
-                
+                int eventChoice;
+                std::cin >> eventChoice;
+                std::shared_ptr<SearchSPattern> searchP = nullptr;
+                if (eventChoice == 1) {
+                    std::string date;
+                    std::cout << "What is the date of the event you need?" << std::endl;
+                    std::cin >> date;
+                    searchP = std::shared_ptr<DateSearch>(date);
+                } else if (eventChoice == 2) {
+                    std::string location;
+                    std::cout << "What is the location of the event you need?" << std::endl;
+                    std::getline(std::cin, location);
+                    searchP = std::shared_ptr<LocationSearch>(location);
+                } else {
+                    std::cout << "That was not a valid option" << std::endl;
+                    break;
+                }
+                if (searchP) {
+                    searchP->search(events);
+                }
+                break;
+            }
+            case 3: {
+                std::cout << "What event would you like details for?" << std::endl;
+                std::string answer;
+                std::getline(std::cin, answer);
+                bool eventFound = false;
+                for (auto& event : events) {
+                    if (event->getName() == answer) {
+                        event->getDetails();
+                        eventFound = true;
+                        break;
+                    }
+                    if (eventFound != true) {
+                        std::cout << "This event was not found" << std::endl;
+                    }
+                    break;
+                }
+            }
+            case 4: {
+                for (auto& event : events) {
+                    if (event->isUpcoming()) {
+                        event->getDetails();
+                    }
+                }
+                break;
+            }
+            case 5: {
+                isActive = false;
+                break;
+            }
+            default: {
+                std::cout << "Please enter a valid number" << std::endl;
+            }
             }
         }
+        return 0;
     }
-}
+
 
