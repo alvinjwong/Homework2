@@ -167,6 +167,7 @@ int main() {
                 std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
                 std::string type;
                 std::cin >> type;
+                std::cin.ignore();
                 std::shared_ptr<EventFactory> eventF = nullptr;
                 if (type == "Workshop" || type == "workshop") {
                     eventF = std::make_shared<WorkshopFactory>();
@@ -191,7 +192,7 @@ int main() {
                 if (eventChoice == 1) {
                     std::string date;
                     std::cout << "What is the date of the event you need?" << std::endl;
-                    std::cin >> date;
+                    std::getline(std::cin, date);
                     searchP = std::make_shared<DateSearch>(date);
                 } else if (eventChoice == 2) {
                     std::string location;
@@ -208,6 +209,7 @@ int main() {
                 break;
             }
             case 3: {
+                std::cin.ignore();
                 std::cout << "What event would you like details for?" << std::endl;
                 std::string answer;
                 std::getline(std::cin, answer);
