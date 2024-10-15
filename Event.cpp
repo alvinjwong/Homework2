@@ -15,12 +15,13 @@ class Event {
     public:
     Event(std::string name, std::string date, std::string location) : eventName(name), eventDate(date), location(location) {}
     virtual ~Event();
-    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << std::endl;}
+    virtual void getDetails() = 0;
     bool isUpcoming() {return true;}
     std::string getName() {return eventName;}
     std::string getDate() {return eventDate;}
     std::string getLocation() {return location;}
 };
+Event::~Event() {}
 
 class Workshop : public Event {
     private:
@@ -29,9 +30,12 @@ class Workshop : public Event {
     public:
     Workshop(std::string name, std::string date, std::string location, int duration, std::string instructor) :
     Event(name, date, location), duration(duration), instructor(instructor) {}
-    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Duration: " << duration << " Instructor: " << instructor << std::endl;}
+    ~Workshop() override;
+    void getDetails() override {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Duration: " << duration << " Instructor: " << instructor << std::endl;}
     bool isUpcoming() {return true;}
 };
+
+Workshop::~Workshop() {}
 
 class Concert : public Event {
     private:
@@ -40,20 +44,26 @@ class Concert : public Event {
     public:
     Concert(std::string name, std::string date, std::string location, std::string bandName, std::string genre) :
     Event(name, date, location), bandName(bandName), genre(genre) {}
-    void getDetails() {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Band Name: " << bandName << " Genre: " << genre << std::endl;}
+    ~Concert() override;
+    void getDetails() override {std::cout << "Event: " << eventName << " Date: " << eventDate << " Location: " << location << " Band Name: " << bandName << " Genre: " << genre << std::endl;}
 
 };
 
+Concert::~Concert() {}
+
 class EventFactory {
 public:
-    std::shared_ptr<Event> createEvent();
+    virtual std::shared_ptr<Event> createEvent() = 0;
     virtual ~EventFactory();
     
 };
 
+EventFactory::~EventFactory() {}
+
+
 class WorkshopFactory : public EventFactory {
 public:
-    std::shared_ptr<Event> createEvent() {
+    std::shared_ptr<Event> createEvent() override {
         std::string name;
         std::string date;
         std::string location;
@@ -72,11 +82,12 @@ public:
         std::getline(std::cin, instructor);
         return std::make_shared<Workshop>(name, date, location, duration, instructor);
     }
+    ~WorkshopFactory() override {};
 };
 
 class ConcertFactory : public EventFactory {
     public:
-    std::shared_ptr<Event> createEvent() {
+    std::shared_ptr<Event> createEvent() override {
         std::string name;
         std::string date;
         std::string location;
@@ -94,26 +105,29 @@ class ConcertFactory : public EventFactory {
         std::getline(std::cin, genre);
         return std::make_shared<Concert>(name, date, location, bandName, genre);
     }
+    ~ConcertFactory() override {};
 };
 
 class SearchSPattern {
     public:
     virtual ~SearchSPattern();
-    virtual void search(std::vector<std::shared_ptr<Event>>& events);
+    virtual void search(std::vector<std::shared_ptr<Event>>& events) = 0;
 };
+SearchSPattern::~SearchSPattern() {}
 
 class DateSearch : public SearchSPattern {
     private:
     std::string date;
     public:
     DateSearch(std::string date) : date(date) {}
-    void search(std::vector<std::shared_ptr<Event>>& events) {
+    void search(std::vector<std::shared_ptr<Event>>& events) override {
         for (auto &event : events) {
             if (event->getDate() == date) {
                 event->getDetails();
             }
         }
     }
+    ~DateSearch() override {}
 
 };
 
@@ -122,13 +136,14 @@ class LocationSearch : public SearchSPattern {
     std::string location;
     public:
     LocationSearch(std::string location) : location(location) {}
-    void search (std::vector<std::shared_ptr<Event>>& events) {
+    void search (std::vector<std::shared_ptr<Event>>& events) override {
         for (auto &event : events) {
             if (event->getLocation() == location) {
                 event->getDetails();
             }
         }
     }
+    ~LocationSearch() override {}
 };
 
 int main() {
