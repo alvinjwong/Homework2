@@ -4,9 +4,15 @@
 #include <memory>
 #include <algorithm>
 
+//the instructions: make run in the terminal
+//you get a prompt, you choose 1-5
+//you can then create events etc
+
+
 //https://www.geeksforgeeks.org/factory-method-pattern-c-design-patterns/
 //https://www.geeksforgeeks.org/smart-pointers-cpp/
 
+//abstract class to make it easier to implement throughout the code
 class Event {
     protected:
     std::string eventName;
@@ -16,13 +22,19 @@ class Event {
     Event(std::string name, std::string date, std::string location) : eventName(name), eventDate(date), location(location) {}
     virtual ~Event();
     virtual void getDetails() = 0;
-    bool isUpcoming() {return true;}
+    bool isUpcoming() {return true;
+    //I could not figure out how to do time, when I looked online, it did not make sense to me
+    //I couldnt figure out how to make it check the current time with the time I implemented.
+    }
     std::string getName() {return eventName;}
     std::string getDate() {return eventDate;}
     std::string getLocation() {return location;}
 };
 Event::~Event() {}
+//deconstructors all throughout
 
+//These classes inherit from the virtual event, its so the workshop and concert can inherit the needed things easier
+//both workshop and concert inherit the needed functions and needed data from the virtual event
 class Workshop : public Event {
     private:
     int duration;
@@ -51,6 +63,9 @@ class Concert : public Event {
 
 Concert::~Concert() {}
 
+//These are the design patterns, the factory method made it really easy to create events, because all i did
+//was call these factories, especially the concert and workshop one, and it asks all the needed questions and
+//implements them.
 class EventFactory {
 public:
     virtual std::shared_ptr<Event> createEvent() = 0;
@@ -60,7 +75,8 @@ public:
 
 EventFactory::~EventFactory() {}
 
-
+//I used shared pointers so I can store both Workshop and Concert into events with pointers, and then I could
+//have everything pointing there without having to create separate pointers, it also manages memory for me
 class WorkshopFactory : public EventFactory {
 public:
     std::shared_ptr<Event> createEvent() override {
@@ -71,11 +87,11 @@ public:
         std::string instructor;
         std::cout << "Enter Workshop Name: " << std::endl;
         std::getline(std::cin, name);
-        std::cout << "Enter Workshop Date: " << std::endl;
+        std::cout << "Enter Workshop Date: (MM-DD-YYYY)" << std::endl;
         std::getline(std::cin, date);
         std::cout << "Enter Workshop Location: " << std::endl;
         std::getline(std::cin, location);
-        std::cout << "Enter Workshop Duration: " << std::endl;
+        std::cout << "Enter Workshop Duration: (just type the number, its in hours)" << std::endl;
         std::cin >> duration;
         std::cin.ignore();
         std::cout << "Enter Workshop Instructor Name: " << std::endl;
@@ -95,7 +111,7 @@ class ConcertFactory : public EventFactory {
         std::string genre;
         std::cout << "Enter Concert Name: " << std::endl;
         std::getline(std::cin, name);
-        std::cout << "Enter Concert Date: " << std::endl;
+        std::cout << "Enter Concert Date: (MM-DD-YYYY)" << std::endl;
         std::getline(std::cin, date);
         std::cout << "Enter Concert Location: " << std::endl;
         std::getline(std::cin, location);
@@ -108,6 +124,11 @@ class ConcertFactory : public EventFactory {
     ~ConcertFactory() override {};
 };
 
+//I had a lot of issue trying to figure out this search pattern
+//https://sourcemaking.com/design_patterns/strategy/cpp/1
+//https://www.geeksforgeeks.org/strategy-method-design-pattern-c-design-patterns/
+//I had to look up many sources to try to figure out a semblence of what is going on
+//it is quite useful for the search function
 class SearchSPattern {
     public:
     virtual ~SearchSPattern();
@@ -145,7 +166,7 @@ class LocationSearch : public SearchSPattern {
     }
     ~LocationSearch() override {}
 };
-
+//this my main, that basically asks everything the code needs
 int main() {
     bool isActive = true;
     std::vector<std::shared_ptr<Event>> events;
@@ -160,8 +181,6 @@ int main() {
 
         int choice;
         std::cin >> choice;
-
-//https://www.geeksforgeeks.org/unique_ptr-in-cpp/
         switch (choice) {
             case 1: {
                 std::cout << "Enter what event you would like to create (Workshop or Concert)" << std::endl;
