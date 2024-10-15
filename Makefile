@@ -1,14 +1,16 @@
 Makefile:
+all: main.o
 
-default: all
+	g++ main.o -o event_management
 
-all: main
+main.o: main.cpp
 
-main: main.cpp
-	g++ -std=c++20 main.cpp -o main
-
+	g++ -c main.cpp
+	
 run: all
-	./main
+
+	./event_management
 
 clean:
-	rm -f main
+
+	rm *.o event_management
