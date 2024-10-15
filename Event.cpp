@@ -202,12 +202,12 @@ int main() {
                         event->getDetails();
                         eventFound = true;
                         break;
+                        }
                     }
                     if (eventFound != true) {
                         std::cout << "This event was not found" << std::endl;
-                    }
-                    break;
                 }
+                break;
             }
             case 4: {
                 for (auto& event : events) {
